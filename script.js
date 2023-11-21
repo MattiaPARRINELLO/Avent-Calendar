@@ -1,4 +1,9 @@
 const cases = document.querySelectorAll(".case");
+const title = document.querySelector(".title");
+
+const version = "1.1";
+const date = "21/11/2023";
+
 // Open json file
 fetch("./list.json")
   .then((response) => response.json())
@@ -42,7 +47,8 @@ fetch("./list.json")
       const today = new Date();
       const date = today.getDate();
       const month = today.getMonth() + 1;
-      if (month !== 12) return;
+      if (month !== 12 || date >= 25) return;
+
       cases.forEach((caseEl) => {
         if (date >= caseEl.id) {
           setCaseUnlocked(caseEl);
@@ -50,4 +56,41 @@ fetch("./list.json")
       });
     };
     wichCaseCanBeUnlocked();
+    const deleteFakeCase = (fakeCase) => {
+      fakeCase.remove();
+    };
+    let numberClick = 0;
+    title.addEventListener("click", () => {
+      numberClick++;
+      if (numberClick < 10) return;
+      // Open all the cases
+      cases.forEach((caseEl) => {
+        setCaseUnlocked(caseEl);
+      });
+      // Open a fake case
+      const fakeCase = document.createElement("div");
+      document.querySelector(".grid").appendChild(fakeCase);
+      fakeCase.classList.add("case");
+      fakeCase.classList.add("unlocked");
+      openCase(fakeCase);
+      fakeCase.innerHTML = `🎁<div class='text'>Bravo ! Tu as trouvé le secret ! Donne moi le code \"324\", peut être que tu auras une surprise ! </div>
+      <div class='version'>Version ${version} - Date ${date}</div>`;
+
+      setTimeout(() => {
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            fakeCase.classList.remove("opened");
+            fakeCase.innerHTML = caseEl.id + "🔒";
+            deleteFakeCase(fakeCase);
+          }
+        });
+        document.addEventListener("click", (event) => {
+          if (!fakeCase.contains(event.target)) {
+            fakeCase.classList.remove("opened");
+            fakeCase.innerHTML = "🔒";
+            deleteFakeCase(fakeCase);
+          }
+        });
+      }, 1000);
+    });
   });
