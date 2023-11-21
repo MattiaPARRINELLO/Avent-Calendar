@@ -62,7 +62,7 @@ fetch("./list.json")
     let numberClick = 0;
     title.addEventListener("click", () => {
       numberClick++;
-      if (numberClick < 10) return;
+      if (numberClick < 3) return;
       // Open all the cases
       cases.forEach((caseEl) => {
         setCaseUnlocked(caseEl);
