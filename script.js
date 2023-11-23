@@ -62,7 +62,13 @@ fetch("./list.json")
     let numberClick = 0;
     title.addEventListener("click", () => {
       numberClick++;
-      if (numberClick < 3) return;
+      let today1 = new Date();
+      if (
+        numberClick < 3 ||
+        today1.getMonth() + 1 != 12 ||
+        today1.getDate() >= 25
+      )
+        return;
       // Open all the cases
       cases.forEach((caseEl) => {
         setCaseUnlocked(caseEl);
