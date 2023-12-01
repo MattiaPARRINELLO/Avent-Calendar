@@ -1,8 +1,8 @@
 const cases = document.querySelectorAll(".case");
 const title = document.querySelector(".title");
 
-const version = "1.1";
-const date = "21/11/2023";
+const version = "1.2";
+const date = "01/12/2023";
 
 // Open json file
 fetch("./list.json")
